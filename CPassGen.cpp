@@ -59,16 +59,19 @@ std::string CPassGen::getChrStr() {
     return this->Chrstr;
 }
 
-int CPassGen::contPass() {
-//    if (this->Chrstr == "" or this->length == 0) { return NULL; }
-    return  pow(this->Chrstr.length(), this->length);
+bool CPassGen::contPass(int& output) {
+    if (this->Chrstr == "" or this->length == 0) { return false; }
+    output = pow(this->Chrstr.length(), this->length);
+    return  true;
 }
 
-int CPassGen::contPass(int count_chars, int length_pass) {
-    return  pow(count_chars, length_pass);
+bool CPassGen::contPass(int& output ,int count_chars, int length_pass) {
+    if (count_chars == 0 or length_pass ==0 ) { return false; }
+    output = pow(count_chars, length_pass);
+    return true; 
 }
 
-Vstr* CPassGen::PpassGen(int beg_n, int cur_num) {
+Vstr CPassGen::PpassGen(int beg_n, int cur_num) {
     
 }
 
@@ -89,11 +92,18 @@ Vstr* CPassGen::PpassGen(int beg_n, int cur_num) {
 //    
 //}
 
-Vstr* CPassGen::PpassGen() {
-    std::string cur_pass = "";
-    if (this->Chrstr == "" or this->length == 0) { return NULL; }
-    for (int i = 0; i < this->length; i++) { cur_pass.append("*"); } 
-    iterCharPassIndexV2(cur_pass,1, false, true);
+Vstr CPassGen::PpassGen() {
+     std::string cur_pass = "";
+     if (this->Chrstr != "" or this->length != 0) 
+     { 
+        for (int i = 0; i < this->length; i++) { cur_pass.append("*"); } 
+//#-------
+        int scope_pass;
+        this->contPass(scope_pass);
+        this->passMass.resize(scope_pass);
+//#-------    
+        iterCharPassIndexV2(cur_pass,1, false, true);
+     }
 }
 
 bool CPassGen::iterCharPassIndexV2(std::string cur_pass, int index, bool debug_rec, bool debug_end) {
@@ -125,7 +135,8 @@ bool CPassGen::iterCharPassIndexV2(std::string cur_pass, int index, bool debug_r
         {
             cur_pass[index-1] = this->Chrstr[i];
 //          #внесенние в массив
-            if (debug_end) { this->count++; /* cout << "pass: "<< cur_pass << endl; */ } 
+            this->passMass[this->count] = cur_pass;
+            if (debug_end) { this->count++; cout << "pass: "<< cur_pass << endl; } 
         }
     }
 }
@@ -143,7 +154,10 @@ bool CPassGen::iterCharPassIndex(std::string cur_pass, int index, bool view) {
 }
 
 void CPassGen::printMassPass() {
-    std::cout << "test" << std::endl; 
+    for (int i = 0; i<this->passMass.size(); i++)
+    {
+        std::cout << "pass: " << this->passMass[i] << ";" << std::endl; 
+    }
 }
 
 //bool CPassGen::PpassGen() {

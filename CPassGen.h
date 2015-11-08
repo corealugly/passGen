@@ -22,7 +22,7 @@ public:
     int length;              //length password
     std::string begin_pass; //start combination
     std::string end_pass;   //end combination
-    Vstr* passMass;          //mass passwords
+    Vstr passMass;          //mass passwords
     int count;               //count password
 //---------------------
 //lol   
@@ -39,11 +39,11 @@ public:
     bool setChrStr(std::string str);
     std::string getChrStr();
     int  getCountPass();                   // получение количества сгенерированных паролей за цикл
-    int contPass();       //подсчет количества возможных комбинаций пароля.
-    int  contPass(int count_chars, int length_pass);              //подсчет количества возможных комбинаций пароля.
+    bool contPass(int& output);       //подсчет количества возможных комбинаций пароля.
+    bool contPass(int& output ,int count_chars, int length_pass);              //подсчет количества возможных комбинаций пароля.
 //---------------------
-    Vstr* PpassGen(int beg_n, int cur_num);
-    Vstr* PpassGen();
+    Vstr PpassGen(int beg_n, int cur_num);
+    Vstr PpassGen();
 //---------------------
     void printMassPass();    //!!!!
 private:
